@@ -5,9 +5,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/corvus_spes.mk
+    $(LOCAL_DIR)/xdroid_spes.mk
 
 COMMON_LUNCH_CHOICES := \
-    corvus_spes-user \
-    corvus_spes-userdebug \
-    corvus_spes-eng
+    xdroid_spes-user \
+    xdroid_spes-userdebug \
+    xdroid_spes-eng
