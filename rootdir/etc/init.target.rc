@@ -28,9 +28,15 @@
 #
 #
 
+import /vendor/etc/init/hw/init.stnfc.rc
+import /vendor/etc/init/hw/init.xiaomi.fingerprint.rc
+import /vendor/etc/init/hw/init.xiaomi.rc
+
 on early-init
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules audio_q6_pdr audio_q6_notifier audio_snd_event audio_apr audio_adsp_loader audio_q6 audio_native audio_usf audio_pinctrl_lpi audio_swr audio_swr_ctrl audio_platform audio_stub audio_wcd_core audio_lct_pinctrl audio_aw87xxx audio_wcd9xxx audio_bolero_cdc audio_va_macro audio_rx_macro audio_tx_macro audio_mbhc audio_wcd937x audio_wcd937x_slave audio_pm2250_spmi audio_rouleur audio_rouleur_slave audio_machine_bengal
     write /proc/sys/kernel/sched_boost 1
+    exec u:r:vendor_qti_init_shell:s0 -- /vendor/bin/init.qti.early_init.sh
+    setprop ro.soc.model ${ro.vendor.qti.soc_model}
 
 on init
     write /dev/stune/foreground/schedtune.sched_boost_no_override 1
@@ -46,11 +52,8 @@ on init
     start vendor.qseecomd
     start keymaster-4-0
 
-    # Xiaomi Thermal Profiles permissions
-    chmod 0664 /sys/class/thermal/thermal_message/sconfig
-    chown system system /sys/class/thermal/thermal_message/sconfig
-    chmod 0666 /sys/class/thermal/thermal_message/temp_state
-    chown system system /sys/class/thermal/thermal_message/temp_state
+on early-fs
+    start vold
 
 on fs
     start hwservicemanager
@@ -59,6 +62,10 @@ on fs
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
+
+on post-fs
+    # set RLIMIT_MEMLOCK to 64MB
+    setrlimit 8 67108864 67108864
 
 on late-fs
     wait_for_prop hwservicemanager.ready true
@@ -93,8 +100,6 @@ on charger
     start vendor.power_off_alarm
     setprop vendor.usb.controller 4e00000.dwc3
     setprop sys.usb.configfs 1
-    chown system system /sys/class/backlight/panel0-backlight/brightness
-    setprop persist.sys.usb.config mass_storage
     
 service charger /system/bin/chargeonlymode
     class charger

@@ -8,28 +8,8 @@
         </interface>
     </hal>
     <hal format="hidl" optional="true">
-        <name>vendor.xiaomi.hardware.mlipay</name>
-        <version>1.0-1</version>
-        <interface>
-            <name>IMlipayService</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="true">
-        <name>vendor.xiaomi.hardware.mtdservice</name>
-        <version>1.0-2</version>
-        <interface>
-            <name>IMTService</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="true">
         <name>com.fingerprints.extension</name>
         <version>1.0</version>
-        <interface>
-            <name>IFingerprintEngineering</name>
-            <instance>default</instance>
-        </interface>
         <interface>
             <name>IFingerprintNavigation</name>
             <instance>default</instance>
@@ -48,14 +28,6 @@
         </interface>
         <interface>
             <name>IGoodixFingerprintDaemonExt</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="true">
-        <name>vendor.xiaomi.hardware.displayfeature</name>
-        <version>1.0</version>
-        <interface>
-            <name>IDisplayFeature</name>
             <instance>default</instance>
         </interface>
     </hal>
@@ -96,15 +68,6 @@
         </interface>
     </hal>
     <hal format="hidl" optional="true">
-        <name>android.hardware.secure_element</name>
-        <version>1.2</version>
-        <interface>
-            <name>ISecureElement</name>
-            <instance>SIM1</instance>
-            <instance>SIM2</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="true">
         <name>android.hardware.wifi</name>
         <version>1.5</version>
         <interface>
@@ -137,12 +100,11 @@
         </interface>
     </hal>
     <hal format="hidl" optional="true">
-       <name>android.hardware.media.c2</name>
-       <version>1.0</version>
-       <interface>
-           <name>IComponentStore</name>
-           <instance>default</instance>
-           <instance>software</instance>
-       </interface>
-   </hal>
+        <name>vendor.xiaomi.hardware.micharge</name>
+        <version>1.0</version>
+        <interface>
+            <name>IMiCharge</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
 </compatibility-matrix>

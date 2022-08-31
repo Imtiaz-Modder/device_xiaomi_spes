@@ -13,9 +13,12 @@
 # limitations under the License.
 
 on boot
-    # set default schedTune value for camera-daemon
-    write /dev/stune/camera-daemon/schedtune.prefer_idle 1
-    write /dev/stune/camera-daemon/schedtune.boost 0
+    mkdir /dev/cpuset/camera-daemon
+    write /dev/cpuset/camera-daemon/cpus 0-7
+    write /dev/cpuset/camera-daemon/mems 0
+    chown cameraserver cameraserver /dev/cpuset/camera-daemon
+    chown cameraserver cameraserver /dev/cpuset/camera-daemon/tasks
+    chmod 0660 /dev/cpuset/camera-daemon/tasks
     
 on late-fs
     # Start services for bootanim
@@ -42,18 +45,6 @@ on init
     chown system system /proc/tp_gesture
     chmod 0644 /proc/tp_gesture
 
-    # fpc1020 and goodix_fp permissions
-    chown system system /dev/goodix_fp
-    chmod 0644 /dev/goodix_fp
-
-    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/fingerdown_wait
-    chmod 0220 /sys/bus/platform/devices/soc/soc:fpc1020/fingerdown_wait
-
-    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/irq
-    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/hw_reset
-    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/wakeup_enable
-    chown system system /sys/bus/platform/devices/soc/soc:fpc1020/modalias
-   
 on post-fs-data
     # Bind mount fastrpc_shell_3 for labelling
     mkdir /mnt/vendor/dsp 0770 root root
@@ -72,3 +63,6 @@ service vendor.audio-hal /vendor/bin/hw/android.hardware.audio.service
     task_profiles ProcessCapacityHigh HighPerformance
     socket audio_hw_socket seqpacket 0666 system system
     onrestart restart audioserver
+
+on property:ro.boot.hwversion=*
+    setprop vendor.boot.hwversion ${ro.boot.hwversion}
